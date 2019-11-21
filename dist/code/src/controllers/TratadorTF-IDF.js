@@ -44,6 +44,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs = __importStar(require("fs"));
+var LimpadorDados_1 = require("./LimpadorDados");
 var TratadorTF_IDF = /** @class */ (function () {
     function TratadorTF_IDF() {
     }
@@ -93,6 +94,42 @@ var TratadorTF_IDF = /** @class */ (function () {
                             reject(error);
                         }
                     })];
+            });
+        });
+    };
+    TratadorTF_IDF.tratarQuery = function (query) {
+        return __awaiter(this, void 0, void 0, function () {
+            var tokens;
+            return __generator(this, function (_a) {
+                tokens = LimpadorDados_1.LimpadorDeDados.tokenizar(query);
+                tokens = tokens.map(function (token) { return LimpadorDados_1.LimpadorDeDados.tratar(token, []); });
+                this.calcularIDFQuery(tokens);
+                return [2 /*return*/];
+            });
+        });
+    };
+    TratadorTF_IDF.calcularIDFQuery = function (tokens) {
+        return __awaiter(this, void 0, void 0, function () {
+            var idf, N, ocorrencias, i, key;
+            return __generator(this, function (_a) {
+                idf = {};
+                N = tokens.length;
+                ocorrencias = {};
+                for (i = 0; i < tokens.length; i++) {
+                    if (tokens[i] != '') {
+                        if (ocorrencias[tokens[i]] == undefined)
+                            ocorrencias[tokens[i]] = 1;
+                        else
+                            ocorrencias[tokens[i]] = ocorrencias[tokens[i]] + 1;
+                    }
+                }
+                for (key in ocorrencias) {
+                    if (ocorrencias[key] != undefined) {
+                        idf[key] = Math.log10(N / (+ocorrencias[key]));
+                    }
+                }
+                console.log(idf);
+                return [2 /*return*/];
             });
         });
     };

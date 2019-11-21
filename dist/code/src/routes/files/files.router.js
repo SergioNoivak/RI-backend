@@ -59,6 +59,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Router_1 = require("../../server/Router");
 var fs = __importStar(require("fs"));
 var LeitorDeArquivo_1 = require("../../controllers/LeitorDeArquivo");
+var TratadorTF_IDF_1 = require("../../controllers/TratadorTF-IDF");
 var FileRouter = /** @class */ (function (_super) {
     __extends(FileRouter, _super);
     function FileRouter() {
@@ -92,11 +93,11 @@ var FileRouter = /** @class */ (function (_super) {
                 });
             });
         });
-        aplication.get('/get-tf', function (req, res) {
+        aplication.post('/get-tf', function (req, res) {
             return __awaiter(this, void 0, void 0, function () {
                 var file;
                 return __generator(this, function (_a) {
-                    console.log('get-tf');
+                    console.log(req.body["data"]);
                     file = require("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/tfs/A jornada do empreendedor - O heroi da nossa Era.txt.json");
                     res.status(200);
                     res.send({ "data": file });
@@ -108,6 +109,17 @@ var FileRouter = /** @class */ (function (_super) {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     console.log(req.body['documento']);
+                    res.status(200);
+                    res.send({ "data": "" });
+                    return [2 /*return*/];
+                });
+            });
+        });
+        aplication.post('/fazer-consulta', function (req, res) {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    console.log(req.body['data']);
+                    TratadorTF_IDF_1.TratadorTF_IDF.tratarQuery(req.body['data']);
                     res.status(200);
                     res.send({ "data": "" });
                     return [2 /*return*/];
