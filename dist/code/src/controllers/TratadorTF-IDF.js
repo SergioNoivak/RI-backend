@@ -47,7 +47,7 @@ var fs = __importStar(require("fs"));
 var TratadorTF_IDF = /** @class */ (function () {
     function TratadorTF_IDF() {
     }
-    TratadorTF_IDF.calcularTF = function (diretorioArquivo, diretorioDeSalvamento, nomeDocumento) {
+    TratadorTF_IDF.calcularTF = function (diretorioArquivo, diretorioDeSalvamento, nomeDocumento, passo) {
         return __awaiter(this, void 0, void 0, function () {
             var idf;
             return __generator(this, function (_a) {
@@ -67,6 +67,7 @@ var TratadorTF_IDF = /** @class */ (function () {
                             }
                             fs.writeFileSync(diretorioDeSalvamento + ".json", JSON.stringify(tf));
                             fs.writeFileSync("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/w/" + nomeDocumento + ".json", JSON.stringify(w));
+                            console.log("fazendo " + passo + "/129 da segunda etapa");
                             resolve();
                         }
                         catch (error) {

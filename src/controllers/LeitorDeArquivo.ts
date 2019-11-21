@@ -6,7 +6,7 @@ import * as fs from 'fs';
 export class LeitorDeArquivo {
 
 
-        async tatarTXT(diretorioArquivo: string, tratamentos: any[], diretorioDeSalvamento: string) {
+        async tatarTXT(diretorioArquivo: string, tratamentos: any[], diretorioDeSalvamento: string,passo:number) {
                 let umavez = true;
                 let maximaFrequencia = {"elemento":"", "frequencia":-1};
                 return new Promise((resolve, reject) => {
@@ -70,7 +70,7 @@ export class LeitorDeArquivo {
                                         fs.writeFileSync("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/ifd/tabelaGeral.json", JSON.stringify(tabelaGeral));
                                         umavez = false;
                                 }
-                                console.log("FIME#")
+                                console.log("fazendo " +passo +"/129 da primeira etapa");
                                 resolve()
 
                         });

@@ -1,17 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -48,28 +35,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var Router_1 = require("../../server/Router");
-var LimpadorDados_1 = require("../../controllers/LimpadorDados");
-var LeitorDeArquivo_1 = require("../../controllers/LeitorDeArquivo");
-var TratadorTF_IDF_1 = require("../../controllers/TratadorTF-IDF");
-var TesteRouter = /** @class */ (function (_super) {
-    __extends(TesteRouter, _super);
-    function TesteRouter() {
-        return _super !== null && _super.apply(this, arguments) || this;
+var LeitorDeArquivo_1 = require("../controllers/LeitorDeArquivo");
+var fs = __importStar(require("fs"));
+var TratadorTF_IDF_1 = require("../controllers/TratadorTF-IDF");
+var Gerador = /** @class */ (function () {
+    function Gerador() {
     }
-    TesteRouter.prototype.applyRoutes = function (aplication) {
-        var _this = this;
-        aplication.get('/', function (req, res) {
-            console.log(req.body);
-            res.status(200);
-            res.send({ "hello": "mundo" });
-        });
-        aplication.post('/avaliar-documento', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-            var leitor, documentos, i, filename, i, filename;
+    Gerador.calcularVetorDeDocumentos = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var req, leitor, documentos, i, filename, i, filename;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        req = {
+                            body: {
+                                "documentos": fs.readdirSync("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/transformados")
+                            }
+                        };
                         console.log(req.body['documentos']);
                         leitor = new LeitorDeArquivo_1.LeitorDeArquivo();
                         documentos = req.body['documentos'];
@@ -103,23 +93,8 @@ var TesteRouter = /** @class */ (function (_super) {
                     case 9: return [2 /*return*/];
                 }
             });
-        }); });
-        // aplication.post('/gerar-stopwords-das-linguagens', async (req: express.Request, res: express.Response) => {
-        //     console.log(req.body);
-        //     let leitor = new LeitorDeArquivo();
-        //     await leitor.gerarStopWordsLinguagensDeProgramacao("C:/Users/sergi/Documents/IF GOIANO/recuperação da informação/trabalho final/code/src/const/keywords/key.txt");
-        //     res.status(200);
-        //     res.send({ "hello": "world" })
-        // });
-        aplication.post('/radicalizar', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                res.status(200);
-                console.log(LimpadorDados_1.LimpadorDeDados.radicalizar("necrofilia"));
-                res.send({ "hello": "world" });
-                return [2 /*return*/];
-            });
-        }); });
+        });
     };
-    return TesteRouter;
-}(Router_1.Router));
-exports.testeRouter = new TesteRouter();
+    return Gerador;
+}());
+exports.Gerador = Gerador;

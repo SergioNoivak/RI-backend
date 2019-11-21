@@ -48,7 +48,7 @@ var fs = __importStar(require("fs"));
 var LeitorDeArquivo = /** @class */ (function () {
     function LeitorDeArquivo() {
     }
-    LeitorDeArquivo.prototype.tatarTXT = function (diretorioArquivo, tratamentos, diretorioDeSalvamento) {
+    LeitorDeArquivo.prototype.tatarTXT = function (diretorioArquivo, tratamentos, diretorioDeSalvamento, passo) {
         return __awaiter(this, void 0, void 0, function () {
             var umavez, maximaFrequencia;
             return __generator(this, function (_a) {
@@ -100,7 +100,7 @@ var LeitorDeArquivo = /** @class */ (function () {
                                 fs.writeFileSync("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/ifd/tabelaGeral.json", JSON.stringify(tabelaGeral));
                                 umavez = false;
                             }
-                            console.log("FIME#");
+                            console.log("fazendo " + passo + "/129 da primeira etapa");
                             resolve();
                         });
                     })];

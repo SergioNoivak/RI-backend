@@ -92,6 +92,18 @@ var FileRouter = /** @class */ (function (_super) {
                 });
             });
         });
+        aplication.get('/get-tf', function (req, res) {
+            return __awaiter(this, void 0, void 0, function () {
+                var file;
+                return __generator(this, function (_a) {
+                    console.log('get-tf');
+                    file = require("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/tfs/A jornada do empreendedor - O heroi da nossa Era.txt.json");
+                    res.status(200);
+                    res.send({ "data": file });
+                    return [2 /*return*/];
+                });
+            });
+        });
         aplication.post('/id-processar-tokens', function (req, res) {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {

@@ -22,21 +22,22 @@ class TesteRouter extends Router {
             console.log(req.body['documentos'])
             let leitor = new LeitorDeArquivo();
             let documentos = req.body['documentos'];
-            for (let i = 0; i < /*documentos.length*/ 2; i++) {
+            for (let i = 0; i < documentos.length; i++) {
             // let i = 0;
             let filename = documentos[i]
-            await leitor.tatarTXT("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/transformados/" + filename, [], "C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/metadata/" + filename)
+            await leitor.tatarTXT("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/transformados/" + filename, [], "C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/metadata/" + filename,i)
         }
-        await TratadorTF_IDF.calcularIDF("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/ifd/tabelaGeral.json",2)
-        for (let i = 0; i < /*documentos.length*/ 2; i++) {
-                    
+        await TratadorTF_IDF.calcularIDF("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/ifd/tabelaGeral.json",documentos.length)
+        for (let i = 0; i < documentos.length; i++) {
             let filename = documentos[i]
-            await TratadorTF_IDF.calcularTF("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/metadata/"  + filename,"C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/tfs/"+filename,filename);
-
+            await TratadorTF_IDF.calcularTF("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/metadata/"  + filename,"C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/tfs/"+filename,filename,i);
         }   
 
 
         });
+
+
+        
         // aplication.post('/gerar-stopwords-das-linguagens', async (req: express.Request, res: express.Response) => {
         //     console.log(req.body);
         //     let leitor = new LeitorDeArquivo();

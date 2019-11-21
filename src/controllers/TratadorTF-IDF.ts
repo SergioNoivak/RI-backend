@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 export class TratadorTF_IDF{
 
-    static async calcularTF(diretorioArquivo: string ,diretorioDeSalvamento: string,nomeDocumento:string) {
+    static async calcularTF(diretorioArquivo: string ,diretorioDeSalvamento: string,nomeDocumento:string,passo:number) {
             
             let idf = require("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/ifd/tabelaGeral.json");
             
@@ -24,6 +24,7 @@ export class TratadorTF_IDF{
                     
                     fs.writeFileSync(diretorioDeSalvamento+".json", JSON.stringify(tf));
                     fs.writeFileSync("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/w/"+nomeDocumento+".json", JSON.stringify(w));
+                    console.log("fazendo " +passo +"/129 da segunda etapa");
 
                     resolve()   
                 } catch (error) {

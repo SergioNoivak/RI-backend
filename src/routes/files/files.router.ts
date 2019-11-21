@@ -26,10 +26,20 @@ class FileRouter extends Router {
            let leitor = new LeitorDeArquivo();
            for (let i = 0; i < files.length; i++) {
                console.log("fazendo ",files[i])
-           }
+           }     
             res.status(200);
             res.send({ "data": files })
         });
+
+        aplication.get('/get-tf',async function (req: express.Request, res: express.Response) {
+            console.log('get-tf')
+             var file = require("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/tfs/A jornada do empreendedor - O heroi da nossa Era.txt.json")
+            res.status(200);
+            res.send({ "data": file })
+        });
+
+
+
 
         aplication.post('/id-processar-tokens',async function (req: express.Request, res: express.Response) {
           
