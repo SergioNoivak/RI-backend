@@ -18,7 +18,7 @@ export class LimpadorDeDados {
         }
     }
 
-    static tokenizar(linha: string) {
+    static  tokenizar(linha: string) {
         return linha.split(" ");
     }
 

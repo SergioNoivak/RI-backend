@@ -98,40 +98,54 @@ var TratadorTF_IDF = /** @class */ (function () {
         });
     };
     TratadorTF_IDF.tratarQuery = function (query) {
-        return __awaiter(this, void 0, void 0, function () {
-            var tokens;
-            return __generator(this, function (_a) {
-                tokens = LimpadorDados_1.LimpadorDeDados.tokenizar(query);
-                tokens = tokens.map(function (token) { return LimpadorDados_1.LimpadorDeDados.tratar(token, []); });
-                this.calcularIDFQuery(tokens);
-                return [2 /*return*/];
-            });
-        });
+        var tokens = LimpadorDados_1.LimpadorDeDados.tokenizar(query);
+        return tokens.map(function (token) { return LimpadorDados_1.LimpadorDeDados.tratar(token, []); });
     };
     TratadorTF_IDF.calcularIDFQuery = function (tokens) {
-        return __awaiter(this, void 0, void 0, function () {
-            var idf, N, ocorrencias, i, key;
-            return __generator(this, function (_a) {
-                idf = {};
-                N = tokens.length;
-                ocorrencias = {};
-                for (i = 0; i < tokens.length; i++) {
-                    if (tokens[i] != '') {
-                        if (ocorrencias[tokens[i]] == undefined)
-                            ocorrencias[tokens[i]] = 1;
-                        else
-                            ocorrencias[tokens[i]] = ocorrencias[tokens[i]] + 1;
+        var idf_q = {};
+        var tabelaFrequencia = {};
+        var maximaFreq = { "token": undefined, "frequencia": -1 };
+        var idf_geral = require("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/ifd/tabelaGeral.json");
+        tokens.forEach(function (token) {
+            if (token != '') {
+                if (tabelaFrequencia[token] == undefined) {
+                    tabelaFrequencia[token] = 1;
+                    if (tabelaFrequencia[token] > maximaFreq["frequencia"]) {
+                        maximaFreq["frequencia"] = tabelaFrequencia[token];
+                        maximaFreq["token"] = token;
                     }
                 }
-                for (key in ocorrencias) {
-                    if (ocorrencias[key] != undefined) {
-                        idf[key] = Math.log10(N / (+ocorrencias[key]));
+                else {
+                    tabelaFrequencia[token] = tabelaFrequencia[token] + 1;
+                    if (tabelaFrequencia[token] > maximaFreq["frequencia"]) {
+                        maximaFreq["frequencia"] = tabelaFrequencia[token];
+                        maximaFreq["token"] = token;
                     }
                 }
-                console.log(idf);
-                return [2 /*return*/];
-            });
+                if (idf_geral[token] == undefined)
+                    idf_q[token] = 0;
+                else
+                    idf_q[token] = idf_geral[token];
+            }
         });
+        return { "idf_q": idf_q, "tabelaFrequencia": tabelaFrequencia, "maximaFreq": maximaFreq };
+    };
+    TratadorTF_IDF.calcularPesoQuery = function (result) {
+        var idf_q = result["idf_q"];
+        console.log(result);
+        var tabelaFrequenciaQuery = result["tabelaFrequencia"];
+        var maximaFrequenciaQuery = result["maximaFreq"];
+        var maximaFrequencia = maximaFrequenciaQuery["frequencia"];
+        console.log(maximaFrequencia);
+        var wq = {};
+        for (var key in idf_q) {
+            if (idf_q[key] != undefined) {
+                wq[key] = idf_q[key] * (0.5 + (0.5 * tabelaFrequenciaQuery[key]) / maximaFrequencia);
+            }
+        }
+        return wq;
+    };
+    TratadorTF_IDF.fazerSimilaridade = function (w, d) {
     };
     return TratadorTF_IDF;
 }());

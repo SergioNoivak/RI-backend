@@ -66,62 +66,104 @@ var FileRouter = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     FileRouter.prototype.applyRoutes = function (aplication) {
-        aplication.get('/linguagens-suportadas', function (req, res) {
-            var files = fs.readdirSync('./C:/Users/sergi/Documents/IF GOIANO/recuperação da informação/trabalho final/code/src/const/keywords/keywords');
+        aplication.get("/linguagens-suportadas", function (req, res) {
+            var files = fs.readdirSync("./C:/Users/sergi/Documents/IF GOIANO/recuperação da informação/trabalho final/code/src/const/keywords/keywords");
             res.status(200);
-            res.send({ "data": files });
+            res.send({ data: files });
         });
-        aplication.get('/documentos-corpus', function (req, res) {
-            var files = fs.readdirSync('C:/Users/Sergio Souza Novak/Documents/trabRec/artigos/transformados');
-            files = files.filter(function (file) { return file.endsWith('txt'); });
+        aplication.get("/documentos-corpus", function (req, res) {
+            var files = fs.readdirSync("C:/Users/Sergio Souza Novak/Documents/trabRec/artigos/transformados");
+            files = files.filter(function (file) { return file.endsWith("txt"); });
             res.status(200);
-            res.send({ "data": files });
+            res.send({ data: files });
         });
-        aplication.get('/id-processar-tokens', function (req, res) {
+        aplication.get("/id-processar-tokens", function (req, res) {
             return __awaiter(this, void 0, void 0, function () {
                 var files, leitor, i;
                 return __generator(this, function (_a) {
-                    files = fs.readdirSync('C:/Users/sergi/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos');
-                    files = files.filter(function (file) { return file.endsWith('pdf'); });
+                    files = fs.readdirSync("C:/Users/sergi/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos");
+                    files = files.filter(function (file) { return file.endsWith("pdf"); });
                     leitor = new LeitorDeArquivo_1.LeitorDeArquivo();
                     for (i = 0; i < files.length; i++) {
                         console.log("fazendo ", files[i]);
                     }
                     res.status(200);
-                    res.send({ "data": files });
+                    res.send({ data: files });
                     return [2 /*return*/];
                 });
             });
         });
-        aplication.post('/get-tf', function (req, res) {
+        aplication.post("/get-tf", function (req, res) {
             return __awaiter(this, void 0, void 0, function () {
                 var file;
                 return __generator(this, function (_a) {
                     console.log(req.body["data"]);
                     file = require("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/tfs/A jornada do empreendedor - O heroi da nossa Era.txt.json");
                     res.status(200);
-                    res.send({ "data": file });
+                    res.send({ data: file });
                     return [2 /*return*/];
                 });
             });
         });
-        aplication.post('/id-processar-tokens', function (req, res) {
+        aplication.post("/id-processar-tokens", function (req, res) {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
-                    console.log(req.body['documento']);
+                    console.log(req.body["documento"]);
                     res.status(200);
-                    res.send({ "data": "" });
+                    res.send({ data: "" });
                     return [2 /*return*/];
                 });
             });
         });
-        aplication.post('/fazer-consulta', function (req, res) {
+        aplication.post("/fazer-consulta", function (req, res) {
             return __awaiter(this, void 0, void 0, function () {
+                var tokens, result, pesoQuery, nomesDeArquivos;
                 return __generator(this, function (_a) {
-                    console.log(req.body['data']);
-                    TratadorTF_IDF_1.TratadorTF_IDF.tratarQuery(req.body['data']);
+                    console.log(req.body["data"]);
+                    tokens = TratadorTF_IDF_1.TratadorTF_IDF.tratarQuery(req.body["data"]['queryString']);
+                    result = TratadorTF_IDF_1.TratadorTF_IDF.calcularIDFQuery(tokens);
+                    pesoQuery = TratadorTF_IDF_1.TratadorTF_IDF.calcularPesoQuery(result);
+                    nomesDeArquivos = fs.readdirSync("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/transformados");
+                    // let nomesDocumentos:string[] = fs.readdirSync("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/transformados");
+                    // nomesDocumentos.forEach(nomeDocumento=>{
+                    //     let documento = require("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/metadata/"+nomeDocumento+".json")
+                    // })
                     res.status(200);
-                    res.send({ "data": "" });
+                    res.send({ data: "" });
+                    return [2 /*return*/];
+                });
+            });
+        });
+        aplication.get("/ajustar-categorias", function (req, res) {
+            return __awaiter(this, void 0, void 0, function () {
+                var livrosLabels, obj, key;
+                return __generator(this, function (_a) {
+                    livrosLabels = require("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/categorias/livroPorCategoria");
+                    obj = {};
+                    for (key in livrosLabels) {
+                        console.log(livrosLabels[key]);
+                        if (livrosLabels[key] != undefined) {
+                            if (obj[livrosLabels[key]] == undefined)
+                                obj[livrosLabels[key]] = [key];
+                            else
+                                obj[livrosLabels[key]].push(key);
+                        }
+                    }
+                    console.log(obj);
+                    fs.writeFileSync("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/categorias/categoriaPorLivro.json", JSON.stringify(obj));
+                    res.status(200);
+                    res.send({ data: obj });
+                    return [2 /*return*/];
+                });
+            });
+        });
+        aplication.get("/estatisticas-categorias", function (req, res) {
+            return __awaiter(this, void 0, void 0, function () {
+                var json;
+                return __generator(this, function (_a) {
+                    json = require("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/categorias/categoriaPorLivro.json");
+                    res.status(200);
+                    res.send({ data: json });
                     return [2 /*return*/];
                 });
             });
