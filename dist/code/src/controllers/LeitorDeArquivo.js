@@ -53,16 +53,16 @@ var LeitorDeArquivo = /** @class */ (function () {
             var umavez, maximaFrequencia;
             return __generator(this, function (_a) {
                 umavez = true;
-                maximaFrequencia = { "elemento": "", "frequencia": -1 };
+                maximaFrequencia = { elemento: "", frequencia: -1 };
                 return [2 /*return*/, new Promise(function (resolve, reject) {
                         var tabelaFrequencia = {};
-                        var LineByLineReader = require('line-by-line'), lr = new LineByLineReader(diretorioArquivo);
-                        lr.on('line', function (line) {
+                        var LineByLineReader = require("line-by-line"), lr = new LineByLineReader(diretorioArquivo);
+                        lr.on("line", function (line) {
                             var string = "";
                             var tokens = line.split(" ");
                             tokens.forEach(function (token) {
-                                if (token != " " && token != "" && token.replace(/ /g, '') != '') {
-                                    var newToken = (LimpadorDados_1.LimpadorDeDados.tratar(token, tratamentos)).replace(/ /g, '');
+                                if (token != " " && token != "" && token.replace(/ /g, "") != "") {
+                                    var newToken = LimpadorDados_1.LimpadorDeDados.tratar(token, tratamentos).replace(/ /g, "");
                                     if (newToken != "") {
                                         if (tabelaFrequencia[newToken] == undefined)
                                             tabelaFrequencia[newToken] = 1;
@@ -76,14 +76,17 @@ var LeitorDeArquivo = /** @class */ (function () {
                                     string += " " + newToken;
                                 }
                             });
-                            if (string.replace(/ /g, '') != '')
+                            if (string.replace(/ /g, "") != "")
                                 fs.appendFileSync(diretorioDeSalvamento + ".txt", string + "/n");
                             // console.log(tabelaFrequencia)
                         });
-                        lr.on('end', function () {
+                        lr.on("end", function () {
                             if (umavez) {
-                                fs.appendFileSync(diretorioDeSalvamento + ".json", JSON.stringify({ "tabelaFrequencia": tabelaFrequencia, "maximaFrequencia": maximaFrequencia }));
-                                var tabelaGeral = require('C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/ifd/tabelaGeral.json');
+                                fs.appendFileSync(diretorioDeSalvamento + ".json", JSON.stringify({
+                                    tabelaFrequencia: tabelaFrequencia,
+                                    maximaFrequencia: maximaFrequencia
+                                }));
+                                var tabelaGeral = require("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/ifd/tabelaGeral.json");
                                 var jaContabilizado = false;
                                 for (var key in tabelaFrequencia) {
                                     if (tabelaFrequencia[key] != undefined) {

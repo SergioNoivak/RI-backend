@@ -97,11 +97,9 @@ export class TratadorTF_IDF {
     }
     static calcularPesoQuery(result:any){
         let idf_q = result["idf_q"];
-        console.log(result)
         let tabelaFrequenciaQuery =  result["tabelaFrequencia"];
         let maximaFrequenciaQuery = result["maximaFreq"];
         let maximaFrequencia:number = maximaFrequenciaQuery["frequencia"];
-        console.log(maximaFrequencia)
         let wq = <any>{}
         for(let key in idf_q){
             if(idf_q[key]!=undefined){

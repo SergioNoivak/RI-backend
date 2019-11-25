@@ -57,18 +57,20 @@ var Gerador = /** @class */ (function () {
                     case 0:
                         req = {
                             body: {
-                                "documentos": fs.readdirSync("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/transformados")
+                                documentos: fs.readdirSync("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/transformados")
                             }
                         };
-                        console.log(req.body['documentos']);
+                        console.log(req.body["documentos"]);
                         leitor = new LeitorDeArquivo_1.LeitorDeArquivo();
-                        documentos = req.body['documentos'];
+                        documentos = req.body["documentos"];
                         i = 0;
                         _a.label = 1;
                     case 1:
                         if (!(i < documentos.length)) return [3 /*break*/, 4];
                         filename = documentos[i];
-                        return [4 /*yield*/, leitor.tatarTXT("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/transformados/" + filename, [], "C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/metadata/" + filename, i)];
+                        return [4 /*yield*/, leitor.tatarTXT("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/transformados/" +
+                                filename, [], "C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/metadata/" +
+                                filename, i)];
                     case 2:
                         _a.sent();
                         _a.label = 3;
@@ -83,7 +85,9 @@ var Gerador = /** @class */ (function () {
                     case 6:
                         if (!(i < documentos.length)) return [3 /*break*/, 9];
                         filename = documentos[i];
-                        return [4 /*yield*/, TratadorTF_IDF_1.TratadorTF_IDF.calcularTF("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/metadata/" + filename, "C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/tfs/" + filename, filename, i)];
+                        return [4 /*yield*/, TratadorTF_IDF_1.TratadorTF_IDF.calcularTF("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/metadata/" +
+                                filename, "C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/tfs/" +
+                                filename, filename, i)];
                     case 7:
                         _a.sent();
                         _a.label = 8;

@@ -5,6 +5,7 @@ import * as fs from "fs";
 import { LeitorDeArquivo } from "../../controllers/LeitorDeArquivo";
 import { LimpadorDeDados } from "../../controllers/LimpadorDados";
 import { TratadorTF_IDF } from "../../controllers/TratadorTF-IDF";
+import { TratadorSimilaridade } from '../../controllers/TratadorSimilaridade';
 
 class FileRouter extends Router {
   applyRoutes(aplication: any) {
@@ -72,20 +73,39 @@ class FileRouter extends Router {
       res: express.Response
     ) {
       console.log(req.body["data"]);
-      let tokens = TratadorTF_IDF.tratarQuery(req.body["data"]['queryString']);
-      let result = TratadorTF_IDF.calcularIDFQuery(tokens);
-      let pesoQuery = TratadorTF_IDF.calcularPesoQuery(result);
 
-      let nomesDeArquivos = fs.readdirSync(
-        "C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/transformados"
-      );
+        if(req.body["data"]["categoria"]=="todos"){
 
-      // let nomesDocumentos:string[] = fs.readdirSync("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/transformados");
+            let tokens = TratadorTF_IDF.tratarQuery(req.body["data"]['queryString']);
+            let result = TratadorTF_IDF.calcularIDFQuery(tokens);
+            let pesoQuery = TratadorTF_IDF.calcularPesoQuery(result);
+            let nomesDeArquivos = fs.readdirSync(
+                "C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/transformados"
+                );
+            let arquivosEPesos = []
 
-      // nomesDocumentos.forEach(nomeDocumento=>{
-      //     let documento = require("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/metadata/"+nomeDocumento+".json")
+            for(let i= 0; i<nomesDeArquivos.length;i++){
+                let similaridade  = TratadorSimilaridade.calcularSimilaridade("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/w/"+nomesDeArquivos[i]+".json",pesoQuery)
+                arquivosEPesos.push({"arquivo":nomesDeArquivos[i],"similaridade":similaridade})
+            }
 
-      // })
+
+            arquivosEPesos.sort(function (a, b) {
+            if (a.similaridade > b.similaridade) {
+                return -1;
+            }
+            if (b.similaridade > a.similaridade) {
+                return 1;
+            }
+            return 0;
+        });
+
+        res.status(200);
+        res.send({ data: arquivosEPesos });
+        return;
+        
+            }
+
       res.status(200);
       res.send({ data: "" });
     });

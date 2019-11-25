@@ -132,11 +132,9 @@ var TratadorTF_IDF = /** @class */ (function () {
     };
     TratadorTF_IDF.calcularPesoQuery = function (result) {
         var idf_q = result["idf_q"];
-        console.log(result);
         var tabelaFrequenciaQuery = result["tabelaFrequencia"];
         var maximaFrequenciaQuery = result["maximaFreq"];
         var maximaFrequencia = maximaFrequenciaQuery["frequencia"];
-        console.log(maximaFrequencia);
         var wq = {};
         for (var key in idf_q) {
             if (idf_q[key] != undefined) {

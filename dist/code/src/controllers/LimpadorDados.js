@@ -12,18 +12,18 @@ var LimpadorDeDados = /** @class */ (function () {
     function LimpadorDeDados() {
     }
     LimpadorDeDados.removerHifem = function (valor, flag) {
-        valor = valor.replace(/[0-9]/g, '');
-        valor = valor.replace(/[`•“”~!@#$%^&*()_|+\=?;:'",.<>\{\}\[\]\\\/]/gi, ' ');
-        valor = valor.replace(/[©°]/gi, ' ');
-        if (valor == '') {
-            return { "texto": "", flag: flag };
+        valor = valor.replace(/[0-9]/g, "");
+        valor = valor.replace(/[`•“”~!@#$%^&*()_|+\=?;:'",.<>\{\}\[\]\\\/]/gi, " ");
+        valor = valor.replace(/[©°]/gi, " ");
+        if (valor == "") {
+            return { texto: "", flag: flag };
         }
         else {
             if (flag) {
-                return { "texto": "" + valor.replace(/[`-]/gi, ''), flag: false };
+                return { texto: "" + valor.replace(/[`-]/gi, ""), flag: false };
             }
             else {
-                return { "texto": " " + valor.replace(/[`-]/gi, ''), flag: flag };
+                return { texto: " " + valor.replace(/[`-]/gi, ""), flag: flag };
             }
         }
     };
@@ -37,13 +37,14 @@ var LimpadorDeDados = /** @class */ (function () {
         return this.radicalizar(this.delimitarMinimoCaracteres(this.removerAcentos(this.extrairPontuacao(token))));
     };
     LimpadorDeDados.removerAcentos = function (token) {
-        return token.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+        return token.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     };
     LimpadorDeDados.extrairPontuacao = function (token) {
-        return token.replace(/\d+/g, '')
-            .replace(/[`º•“”~!@#$%^&*()_|+\=?;:'",.<>\{\}\[\]\\\/]/gi, '')
-            .replace(/[©°]/gi, '')
-            .replace(/[`-]/gi, '')
+        return token
+            .replace(/\d+/g, "")
+            .replace(/[`º•“”~!@#$%^&*()_|+\=?;:'",.<>\{\}\[\]\\\/]/gi, "")
+            .replace(/[©°]/gi, "")
+            .replace(/[`-]/gi, "")
             .toLowerCase();
     };
     LimpadorDeDados.delimitarMinimoCaracteres = function (token) {
