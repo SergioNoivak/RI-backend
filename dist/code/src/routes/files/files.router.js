@@ -118,34 +118,43 @@ var FileRouter = /** @class */ (function (_super) {
         });
         aplication.post("/fazer-consulta", function (req, res) {
             return __awaiter(this, void 0, void 0, function () {
-                var tokens, result, pesoQuery, nomesDeArquivos, arquivosEPesos, i, similaridade;
+                var tokens, result, pesoQuery, categoria, nomesDeArquivos, jsonCategorias, arquivosEPesos, i, similaridade;
                 return __generator(this, function (_a) {
                     console.log(req.body["data"]);
-                    if (req.body["data"]["categoria"] == "todos") {
-                        tokens = TratadorTF_IDF_1.TratadorTF_IDF.tratarQuery(req.body["data"]['queryString']);
-                        result = TratadorTF_IDF_1.TratadorTF_IDF.calcularIDFQuery(tokens);
-                        pesoQuery = TratadorTF_IDF_1.TratadorTF_IDF.calcularPesoQuery(result);
+                    tokens = TratadorTF_IDF_1.TratadorTF_IDF.tratarQuery(req.body["data"]["queryString"]);
+                    result = TratadorTF_IDF_1.TratadorTF_IDF.calcularIDFQuery(tokens);
+                    pesoQuery = TratadorTF_IDF_1.TratadorTF_IDF.calcularPesoQuery(result);
+                    categoria = req.body["data"]["categoria"];
+                    if (categoria == "todos") {
                         nomesDeArquivos = fs.readdirSync("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/transformados");
-                        arquivosEPesos = [];
-                        for (i = 0; i < nomesDeArquivos.length; i++) {
-                            similaridade = TratadorSimilaridade_1.TratadorSimilaridade.calcularSimilaridade("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/w/" + nomesDeArquivos[i] + ".json", pesoQuery);
-                            arquivosEPesos.push({ "arquivo": nomesDeArquivos[i], "similaridade": similaridade });
-                        }
-                        arquivosEPesos.sort(function (a, b) {
-                            if (a.similaridade > b.similaridade) {
-                                return -1;
-                            }
-                            if (b.similaridade > a.similaridade) {
-                                return 1;
-                            }
-                            return 0;
-                        });
-                        res.status(200);
-                        res.send({ data: arquivosEPesos });
-                        return [2 /*return*/];
                     }
+                    else {
+                        jsonCategorias = require("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/categorias/categoriaPorLivro.json");
+                        if (jsonCategorias[categoria] != undefined) {
+                            nomesDeArquivos = jsonCategorias[categoria];
+                        }
+                    }
+                    arquivosEPesos = [];
+                    for (i = 0; i < nomesDeArquivos.length; i++) {
+                        similaridade = TratadorSimilaridade_1.TratadorSimilaridade.calcularSimilaridade("C:/Users/Sergio Souza Novak/Documents/IF GOIANO/recuperação da informação/trabalho final/artigos/w/" +
+                            nomesDeArquivos[i] +
+                            ".json", pesoQuery);
+                        arquivosEPesos.push({
+                            arquivo: nomesDeArquivos[i],
+                            similaridade: similaridade
+                        });
+                    }
+                    arquivosEPesos.sort(function (a, b) {
+                        if (a.similaridade > b.similaridade) {
+                            return -1;
+                        }
+                        if (b.similaridade > a.similaridade) {
+                            return 1;
+                        }
+                        return 0;
+                    });
                     res.status(200);
-                    res.send({ data: "" });
+                    res.send({ data: arquivosEPesos });
                     return [2 /*return*/];
                 });
             });
